@@ -70,6 +70,8 @@ What was settled, in the order it was settled. Each entry is final unless a late
 
 - **D39. Release notes come from `CHANGELOG.md`.** They are tracked, so the privacy check reads them before they are published.
 
+- **D40. Commits keep their `Co-Authored-By: Claude` line.** It says the code was written with Claude and says nothing about the owner.
+
 ## Process
 
 - **D31. Tests cover the model's handling of helper events,** against a scripted fake helper. They run locally. No CI, which would also mean build logs to keep clean.
