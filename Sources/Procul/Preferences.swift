@@ -93,6 +93,9 @@ final class Preferences {
     var notifyOnText: Bool {
         didSet { defaults.set(notifyOnText, forKey: "notifyOnText") }
     }
+    var checksForUpdates: Bool {
+        didSet { defaults.set(checksForUpdates, forKey: "checksForUpdates") }
+    }
     var shortcut: Shortcut {
         didSet { defaults.set(try? JSONEncoder().encode(shortcut), forKey: "shortcut") }
     }
@@ -107,6 +110,7 @@ final class Preferences {
         pinned = defaults.object(forKey: "pinned") as? Bool ?? false
         favorites = defaults.object(forKey: "favorites") as? [String] ?? []
         notifyOnText = defaults.object(forKey: "notifyOnText") as? Bool ?? false
+        checksForUpdates = defaults.object(forKey: "checksForUpdates") as? Bool ?? true
         setupLater = defaults.object(forKey: "setupLater") as? [String] ?? []
         if let data = defaults.object(forKey: "shortcut") as? Data,
            let saved = try? JSONDecoder().decode(Shortcut.self, from: data) {

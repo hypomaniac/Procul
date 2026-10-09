@@ -2,7 +2,7 @@
 
 What was settled, in the order it was settled. Each entry is final unless a later one replaces it by number.
 
-**Status:** phases 1 (identity) and 2 (features) are built. Phase 3 (packaging, update checker, the public repo, the first release, the second Mac) has not started and waits for a go-ahead.
+**Status:** all three phases are built. The repo exists on GitHub and is private. Version 1.0 is released there. Still to do, by the owner: read the repo as a stranger would, make it public, and install the zip on the second Mac.
 
 ## Shape
 
@@ -60,6 +60,13 @@ What was settled, in the order it was settled. Each entry is final unless a late
 
 - **D29. Other Macs in the house get a zip,** copied over by hand, with a one-time "Open Anyway". Apple silicon, macOS 14 or later. No notarization.
 - **D30. An update checker reports, it does not install.** It asks the public releases list at launch and once a day and offers to open the release page. With an ad hoc signature there is nothing to verify a download against. It is a switch, on by default.
+
+- **D33. The first published version is 1.0.**
+- **D34. Release binaries are stripped.** A release build carries the full path of every source file in its debug map, and that path begins with the builder's home folder. The privacy check caught this in the first zip.
+- **D35. The privacy check opens a release all the way up.** Nested zips and the compressed streams that hold the Python modules are unpacked before searching. A plain search of the bytes on disk would miss anything inside them.
+- **D36. Commits and zips are made in UTC.** Both record a time zone otherwise. The check refuses a commit that is not in UTC.
+- **D37. False alarms that reveal nothing are listed in the repo,** in `scripts/privacy-allow.txt`. An exception whose pattern is itself private stays in the private list.
+- **D38. The update notice is one line at the bottom of the remote and one item in the menu.** It stays until the app is updated or the switch is turned off.
 
 ## Process
 

@@ -7,11 +7,21 @@ struct RemoteView: View {
     let panel: PanelState
     let icons: AppIcons
     let notifier: Notifier
+    let updates: UpdateChecker
 
     var body: some View {
         VStack(spacing: 14) {
-            HeaderView(model: model, prefs: prefs, panel: panel, notifier: notifier)
+            HeaderView(model: model, prefs: prefs, panel: panel, notifier: notifier, updates: updates)
             content
+            if let release = updates.available {
+                HStack(spacing: 5) {
+                    Text("Version \(release.version) is available.")
+                    Button("Get It") { updates.openReleasePage() }
+                        .buttonStyle(.link)
+                }
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            }
             if let notice = model.notice {
                 Text(notice)
                     .font(.caption)
@@ -69,6 +79,7 @@ private struct HeaderView: View {
     let prefs: Preferences
     let panel: PanelState
     let notifier: Notifier
+    let updates: UpdateChecker
     @State private var opensAtLogin = SMAppService.mainApp.status == .enabled
 
     var body: some View {
@@ -78,6 +89,10 @@ private struct HeaderView: View {
                 .frame(width: 8, height: 8)
 
             Menu {
+                if let release = updates.available {
+                    Button("Get Version \(release.version)…") { updates.openReleasePage() }
+                    Divider()
+                }
                 ForEach(model.devices) { device in
                     Toggle(device.name, isOn: Binding(
                         get: { device.id == model.selectedID },
@@ -100,6 +115,10 @@ private struct HeaderView: View {
                 Toggle("Open at Login", isOn: Binding(
                     get: { opensAtLogin },
                     set: { setOpensAtLogin($0) }
+                ))
+                Toggle("Check for Updates", isOn: Binding(
+                    get: { prefs.checksForUpdates },
+                    set: { updates.setEnabled($0) }
                 ))
                 Button("Change Shortcut (\(prefs.shortcut.display))…") { panel.mode = .shortcut }
                 Divider()

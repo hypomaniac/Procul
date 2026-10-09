@@ -30,6 +30,11 @@ enum Snapshot {
             model.status = .connected
             model.power = "on"
         }
+        render("update-available", to: folder, newer: "9.0") { model, _, _ in
+            model.devices = [full]
+            model.status = .connected
+            model.power = "on"
+        }
         render("playing-typing-favorites", to: folder) { model, prefs, panel in
             model.devices = [full]
             model.status = .connected
@@ -84,6 +89,7 @@ enum Snapshot {
     private static func render(
         _ name: String,
         to folder: URL,
+        newer: String? = nil,
         configure: (RemoteModel, Preferences, PanelState) -> Void
     ) {
         let prefs = Preferences(defaults: MemorySettings())
@@ -92,8 +98,24 @@ enum Snapshot {
         let panel = PanelState()
         configure(model, prefs, panel)
 
+        // A canned answer in place of the network, when the state calls for one.
+        let answer = newer.map {
+            Data(#"{"tag_name":"v\#($0)","html_url":"\#(UpdateChecker.releasesPage)/tag/v\#($0)"}"#.utf8)
+        }
+        let updates = UpdateChecker(prefs: prefs, current: "1.0") {
+            guard let answer else { throw URLError(.notConnectedToInternet) }
+            return answer
+        }
+        if answer != nil {
+            Task { await updates.check() }
+            RunLoop.main.run(until: Date().addingTimeInterval(0.1))
+        }
+
         for (suffix, appearance) in [("light", NSAppearance.Name.aqua), ("dark", .darkAqua)] {
-            let view = RemoteView(model: model, prefs: prefs, panel: panel, icons: AppIcons(fetches: false), notifier: Notifier())
+            let view = RemoteView(
+                model: model, prefs: prefs, panel: panel,
+                icons: AppIcons(fetches: false), notifier: Notifier(), updates: updates
+            )
                 .background(Color(nsColor: .windowBackgroundColor))
             let host = NSHostingView(rootView: view)
             host.appearance = NSAppearance(named: appearance)

@@ -60,6 +60,7 @@ Volume goes through the Apple TV, so it works when the TV or receiver takes volu
 
 - Your Apple TV, over the local network.
 - Apple's public App Store lookup, once per favorite app, to fetch its icon. Apps with no listing get a lettered tile.
+- This project's public release list on GitHub, at launch and once a day, to see whether a newer version exists. It only tells you. It never downloads or installs anything. **Check for Updates** in the menu turns it off.
 
 Nothing else. Pairing credentials stay in `~/Library/Application Support/Procul/credentials.json`, readable only by you.
 
@@ -97,13 +98,19 @@ scripts/debug-command.sh snapshot:/tmp/panel.png
 
 A debug build answers commands sent this way, which is how the panel can be driven and photographed from a script.
 
-Before anything is published:
+To make a zip for another Mac or for a release:
+
+```bash
+scripts/package.sh
+```
+
+It runs the tests, builds with an ad hoc signature, strips the binary and zips the app with a first-open note. It then runs the privacy check on the result and deletes the zip if the check fails.
 
 ```bash
 scripts/privacy-check.sh
 ```
 
-It scans tracked files, commit history and optionally a release zip for the strings listed in `.private-strings`, a file that is never committed.
+This scans tracked files, every past version of every file, commit names, emails, messages and time zones, and optionally a release zip, for the strings listed in `.private-strings`. That file is never committed. A zip is opened all the way up first, nested archives and compressed Python modules included. Known false alarms that reveal nothing are listed in `scripts/privacy-allow.txt`.
 
 ## If it stops working
 

@@ -28,6 +28,12 @@ cp Resources/Info.plist "$APP/Contents/"
 cp Resources/AppIcon.icns "$APP/Contents/Resources/"
 cp -R build/helper/atv_helper "$APP/Contents/Resources/helper/"
 
+# A release binary carries the full path of every source file in its debug
+# map, and that path starts with the builder's home folder. Take it out.
+if [ "$CONFIG" = "release" ]; then
+    strip -S -x "$APP/Contents/MacOS/Procul" 2>/dev/null
+fi
+
 # CODESIGN_IDENTITY picks the signature. "-" is ad hoc, which is what a
 # build meant for other people gets. With nothing set, a local Apple
 # Development certificate is used if there is one, because a stable

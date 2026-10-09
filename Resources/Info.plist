@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Procul</string>
 	<key>CFBundleExecutable</key>
 	<string>Procul</string>
 	<key>CFBundleIconFile</key>
@@ -14,27 +16,25 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>Procul</string>
-	<key>CFBundleDisplayName</key>
-	<string>Procul</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1</string>
+	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>1</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>14.0</string>
 	<key>LSUIElement</key>
 	<true/>
-	<key>NSHighResolutionCapable</key>
-	<true/>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Procul finds and controls the Apple TV on your network.</string>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_companion-link._tcp</string>
 		<string>_airplay._tcp</string>
 		<string>_raop._tcp</string>
 	</array>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Procul finds and controls the Apple TV on your network.</string>
 </dict>
 </plist>

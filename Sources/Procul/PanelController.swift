@@ -48,7 +48,14 @@ final class PanelController: NSObject, NSWindowDelegate {
     private static let pinnedOriginKey = "pinnedTopLeft"
     private static let cornerRadius: CGFloat = 14
 
-    init(model: RemoteModel, prefs: Preferences, icons: AppIcons, notifier: Notifier, hotKey: HotKey) {
+    init(
+        model: RemoteModel,
+        prefs: Preferences,
+        icons: AppIcons,
+        notifier: Notifier,
+        updates: UpdateChecker,
+        hotKey: HotKey
+    ) {
         self.model = model
         self.prefs = prefs
         self.hotKey = hotKey
@@ -63,7 +70,9 @@ final class PanelController: NSObject, NSWindowDelegate {
         state.pinned = prefs.pinned
         state.togglePin = { [weak self] in self?.togglePin() }
 
-        let root = RemoteView(model: model, prefs: prefs, panel: state, icons: icons, notifier: notifier)
+        let root = RemoteView(
+            model: model, prefs: prefs, panel: state, icons: icons, notifier: notifier, updates: updates
+        )
             .background(PanelBackground())
             .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius, style: .continuous))
             .onGeometryChange(for: CGSize.self, of: { $0.size }, action: { [weak self] size in

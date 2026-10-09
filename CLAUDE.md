@@ -16,6 +16,8 @@ This repo is published under a pseudonym. Nothing in it may identify the owner, 
 
 - Write docs, comments, commit messages and decisions without names of people, computers, towns or employers. Say "a second Mac in the house".
 - Commits use the repo-local identity already set in `.git/config`. Do not override it.
+- Commit with `TZ=UTC git commit`. A commit records its time zone, and the privacy check refuses any that is not UTC.
+- Make release zips with `scripts/package.sh` only. It signs ad hoc, strips the source paths out of the binary and will not leave a zip behind if the privacy check fails.
 - Run `scripts/privacy-check.sh` before every commit that will be pushed, and pass the zip to it before every release. It reads `.private-strings`, which is gitignored and must stay that way.
 - Release builds are signed ad hoc (`CODESIGN_IDENTITY=-`). A local certificate is for local installs only.
 - Never push, publish a release or change repo visibility without being told to in that conversation.

@@ -1,0 +1,11 @@
+# Findings the privacy check lets through, one regular expression per line.
+# Nothing here is private: these are the false alarms that any build
+# produces, written down so a fresh checkout does not have to rediscover
+# them. Keep each one as narrow as it can be.
+
+# A mangled Rust symbol in the cryptography library that happens to spell a name.
+^zip: .*/cryptography/hazmat/bindings/_rust\.abi3\.so: .*Cel+iEEE
+
+# Textbook example addresses in Python's own ipaddress and urllib modules.
+^zip: .*/atv_helper > \(inflated\): .*(192\.168\.0\.0/16|10\.0\.0\.0/8|172\.16\.0\.0/12)
+^zip: .*/atv_helper > \(inflated\): .*(192\.168\.1\.1 and net|192\.168\.1\.0/24|192\.168\.100\.0/24|192\.168\.0\.1")

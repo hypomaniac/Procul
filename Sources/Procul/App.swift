@@ -27,6 +27,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private lazy var model = RemoteModel(prefs: prefs)
     private let icons = AppIcons()
     private let notifier = Notifier()
+    private lazy var updates = UpdateChecker(prefs: prefs)
     private let hotKey = HotKey()
     private var panel: PanelController!
 
@@ -34,7 +35,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // A menu bar app has no windows most of the time. It should stay running anyway.
         ProcessInfo.processInfo.disableAutomaticTermination("Menu bar remote")
 
-        panel = PanelController(model: model, prefs: prefs, icons: icons, notifier: notifier, hotKey: hotKey)
+        panel = PanelController(
+            model: model, prefs: prefs, icons: icons, notifier: notifier, updates: updates, hotKey: hotKey
+        )
 
         notifier.start()
         notifier.onOpen = { [weak self] in
@@ -50,6 +53,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         model.start()
+        updates.start()
 
         #if DEBUG
         listenForDebugCommands()
@@ -103,6 +107,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 "nowPlayingPaired": model.device?.nowPlayingPaired ?? false,
                 "playing": model.nowPlaying?.headline ?? "",
                 "shortcut": prefs.shortcut.display,
+                "update": updates.available?.version ?? "",
             ]
             let data = try? JSONSerialization.data(withJSONObject: state, options: [.prettyPrinted, .sortedKeys])
             try? data?.write(to: URL(fileURLWithPath: argument))
