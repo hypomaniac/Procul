@@ -2,7 +2,7 @@
 
 What was settled, in the order it was settled. Each entry is final unless a later one replaces it by number.
 
-**Status:** all three phases are built. The repo exists on GitHub and is private. Version 1.0 is released there. Still to do, by the owner: read the repo as a stranger would, make it public, and install the zip on the second Mac.
+**Status:** all three phases are built. The repo is public on GitHub and version 1.0 is released there. Still to do, by the owner: install the zip on the second Mac. D28 has run its course for visibility. Every push and every release still waits for an explicit go-ahead.
 
 ## Shape
 
