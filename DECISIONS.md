@@ -68,6 +68,8 @@ What was settled, in the order it was settled. Each entry is final unless a late
 - **D37. False alarms that reveal nothing are listed in the repo,** in `scripts/privacy-allow.txt`. An exception whose pattern is itself private stays in the private list.
 - **D38. The update notice is one line at the bottom of the remote and one item in the menu.** It stays until the app is updated or the switch is turned off.
 
+- **D39. Release notes come from `CHANGELOG.md`.** They are tracked, so the privacy check reads them before they are published.
+
 ## Process
 
 - **D31. Tests cover the model's handling of helper events,** against a scripted fake helper. They run locally. No CI, which would also mean build logs to keep clean.
