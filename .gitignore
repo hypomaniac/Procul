@@ -1,0 +1,10 @@
+.build/
+.venv/
+build/
+.DS_Store
+__pycache__/
+*.pyc
+.swiftpm/
+
+# The list of personal strings the privacy check looks for. Never commit it.
+.private-strings
